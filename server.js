@@ -7,6 +7,7 @@ const MongoStore = require("connect-mongo")(session);
 const passport = require("./passport");
 const app = express();
 const PORT = 8080;
+const cors = require("cors");
 // Route requires
 const user = require("./routes/user");
 
@@ -20,6 +21,7 @@ app.use(
 app.use(bodyParser.json());
 
 // Sessions
+app.use(cors());
 app.use(
   session({
     secret: "fraggle-rock", //pick a random string to make the hash that is generated secure
