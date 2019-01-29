@@ -97,9 +97,9 @@ router.get("/", (req, res, next) => {
   console.log("===== user!!======");
   console.log(req.user);
   if (req.user) {
-    res.json({ user: req.user });
+    res.json({ success: 1, user: req.user.username });
   } else {
-    res.json({ user: null });
+    res.json({ success: 0, user: null });
   }
 });
 
