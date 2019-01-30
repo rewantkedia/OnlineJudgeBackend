@@ -8,8 +8,6 @@ const passport = require("./passport");
 const app = express();
 const PORT = 8080;
 const cors = require("cors");
-// Route requires
-const user = require("./routes/user");
 
 // MIDDLEWARE
 app.use(morgan("dev"));
@@ -43,8 +41,13 @@ app.use(function(req, res, next) {
 app.use(passport.initialize());
 app.use(passport.session()); // calls the deserializeUser
 
+// Route requires
+const user = require("./routes/user");
+const question = require("./routes/question");
+
 // Routes
 app.use("/user", user);
+app.use("/question", question);
 
 // Starting Server
 app.listen(PORT, () => {
