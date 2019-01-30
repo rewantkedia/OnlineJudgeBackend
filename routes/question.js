@@ -6,6 +6,32 @@ router.get("/", (req, res) => {
     message: "HIT"
   });
 });
+router.post("/", (req, res) => {
+  //   //   console.log("REQ", req);
+  //   console.log("REQ PARAMS", req.params);
+  //   console.log("REQ BODY ", req.body.a);
+  const { question_id } = req.body;
+  console.log("QUESTION ID ", question_id);
+  Question.findOne({ question_id: question_id }, (err, question) => {
+    if (err) {
+      return res.json({
+        message: "DB Error"
+      });
+    } else if (question) {
+      return res.json({
+        success: 1,
+        question: question
+      });
+    } else {
+      return res.json({
+        success: 0,
+        message: "URL invalid"
+      });
+    }
+  }).catch(err => {
+    console.log("ERROR HERE", err);
+  });
+});
 router.post("/add", (req, res) => {
   const { question_id, text, test_cases } = req.body;
   Question.findOne({ question_id: question_id }, (err, question) => {
