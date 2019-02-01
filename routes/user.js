@@ -44,31 +44,12 @@ router.post("/", (req, res) => {
   });
 });
 
-// router.post(
-//   "/login",
-//   function(req, res, next) {
-//     console.log("routes/user.js, login, req.body: ");
-//     console.log(req.body);
-//     next();
-//   },
-//   passport.authenticate("local"),
-//   (req, res) => {
-//     console.log("logged in", req.user);
-//     var userInfo = {
-//       username: req.user.username
-//     };
-//     res.json(userInfo);
-//   }
-// );
-
 router.post("/login", function(req, res, next) {
   passport.authenticate("local", function(err, user, info) {
     if (err) {
       return next(err);
     }
     if (!user) {
-      // var url = '/login/signin?message='+info.message;
-      // console.log(url);
       return res.json({
         success: 0 ///////defines wrong username or password entered
       });
@@ -77,10 +58,6 @@ router.post("/login", function(req, res, next) {
       if (err) {
         return next(err);
       }
-      // // res.send(req.user);
-      // // req.session.user = req.user;
-      // console.log("EXE");
-      // console.log(req.user);
       return (
         req,
         res.json({
@@ -99,6 +76,24 @@ router.get("/", (req, res, next) => {
     res.json({ success: 1, user: req.user.username });
   } else {
     res.json({ success: 0, user: null });
+  }
+});
+
+router.get("/profile", (req, res, next) => {
+  console.log("===== profile!!======");
+  console.log("USERNAME", req.user.username);
+  if (!req.user) {
+    res.json({ success: 0, user: null });
+  } else {
+    User.findOne({ username: req.user.username }, (err, user) => {
+      if (err) {
+        res.json({ success: 0, message: "Error DB" });
+      } else {
+        console.log(user);
+        //#I user sending password details as well.Avoid.
+        res.json({ success: 1, user: user });
+      }
+    });
   }
 });
 
