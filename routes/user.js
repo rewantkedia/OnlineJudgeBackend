@@ -107,7 +107,7 @@ router.post("/logout", (req, res) => {
     req.logout();
     res.json({ success: 1, message: "logging out" });
   } else {
-    res.send({ msg: "no user to log out" });
+    res.send({ success: 0, message: "no user to log out" });
   }
 });
 
