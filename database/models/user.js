@@ -13,7 +13,7 @@ const userSchema = new Schema({
   displayName: { type: String },
   email: { type: String },
   status: { type: String, default: "normalUser" }, //status will be either "normalUser" or "Contributor"
-  photo: { type: String } //Photos will be stored locally and its URL will be stored in DB.
+  photo: { type: String, default: "default.jpg" } //Photos will be stored locally and its URL will be stored in DB.
 });
 
 // Define schema methods

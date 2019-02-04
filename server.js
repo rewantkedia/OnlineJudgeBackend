@@ -8,6 +8,7 @@ const passport = require("./passport");
 const app = express();
 const PORT = 8080;
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 // MIDDLEWARE
 app.use(morgan("dev"));
@@ -16,8 +17,9 @@ app.use(
     extended: false
   })
 );
+app.use("/public", express.static(__dirname + "/public/images"));
 app.use(bodyParser.json());
-
+app.use(fileUpload());
 // Sessions
 app.use(cors());
 app.use(

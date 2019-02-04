@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../database/models/user");
 const passport = require("../passport");
+const path = require("path");
 
 router.post("/", (req, res) => {
   console.log("user signup");
@@ -106,4 +107,41 @@ router.post("/logout", (req, res) => {
   }
 });
 
+router.post("/upload", (req, res) => {
+  console.log(req.body);
+});
+
+router.post("/upload_dp", (req, res) => {
+  console.log("DP route handled");
+  // console.log(req);
+  console.log(req.files.file);
+  console.log("USERNAME: ", req.body.filename);
+  // console.log(path.join(__dirname, "../public/images"));
+  imageFile = req.files.file;
+  // const req_path = path.join(__dirname, "../public");
+  console.log(req.path);
+  imageFile.mv(
+    path.join(__dirname, "../public/images/") + req.body.filename + ".jpg",
+    function(err) {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        console.log("uploaded");
+        User.findOne({ username: req.body.filename }, function(err, doc) {
+          doc.photo = req.body.filename + ".jpg";
+          doc.name = req.body.name;
+          doc.displayName = req.body.displayName;
+          doc.age = req.body.age;
+          doc.institution = req.body.institution;
+          doc.save();
+        });
+        return res.json({
+          success: 1,
+          message: "DP saved"
+        });
+      }
+      // res.json({ file: `public/${req.body.filename}.jpg` });
+    }
+  );
+});
 module.exports = router;
