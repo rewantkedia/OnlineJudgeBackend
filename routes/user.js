@@ -46,6 +46,7 @@ router.post("/", (req, res) => {
 });
 
 router.post("/login", function(req, res, next) {
+
   passport.authenticate("local", function(err, user, info) {
     if (err) {
       return next(err);
@@ -99,6 +100,7 @@ router.get("/profile", (req, res, next) => {
 });
 
 router.post("/logout", (req, res) => {
+  console.log("logouthere");
   if (req.user) {
     req.logout();
     res.json({ success: 1, message: "logging out" });
